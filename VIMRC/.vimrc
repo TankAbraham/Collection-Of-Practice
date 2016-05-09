@@ -29,8 +29,11 @@ set wildmode=full
 
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+"在命令行输入 %% 会被自动展开为活动缓冲区所在目录的路径
+cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%'
 
-"插件
+
+"开启插件支持
 set nocompatible
 filetype plugin on
 
