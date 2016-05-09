@@ -2,4 +2,7 @@
 This is the collection of practise project which include C++ Primer and so on.
 
 ## C++ Primer 5th Exercise    
-The practice of the book.
+The practice of the book.    
+
+## VIMRC
+The .vimrc file of mine.
