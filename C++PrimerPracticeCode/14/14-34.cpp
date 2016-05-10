@@ -4,8 +4,7 @@
 using namespace std;
 
 struct Solution {
-	string operator() (
-		const string& first = "1st", const string& second = "2nd", const string& thrid = "3th") {
+	string operator() (const string& first = "1st", const string& second = "2nd", const string& thrid = "3th") {
 		if (first != "1st")
 			return second;
 		else
