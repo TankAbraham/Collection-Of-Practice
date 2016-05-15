@@ -25,7 +25,10 @@ set scrolloff=3
 set completeopt=longest,menu
 set guifont=Console:14
 set wildmenu    "<tab>自动不全
-set wildmode=full
+set wildmode=full "<tab>自动不全 zsh自动不全菜单
+set history=2000 ""提高命令行历史记录的数目非常有价值
+set undofile    "un~ 文件统一存放
+set undodir=~/.vimundofile
 
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
@@ -36,6 +39,11 @@ cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%'
 "开启插件支持
 set nocompatible
 filetype plugin on
+
+
+
+" matchit
+runtime macros/matchit.vim
 
 
 
