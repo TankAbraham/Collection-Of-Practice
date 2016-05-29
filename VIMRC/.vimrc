@@ -34,11 +34,27 @@ set smartcase "搜索模式出现大写时则关闭 ignorecase 选项
 
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+
+
 "在命令行输入 %% 会被自动展开为活动缓冲区所在目录的路径
 cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%'
 
+
 "mapping <C-l> to :nohl
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+
+
+"search current text
+xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>=@/<CR><CR>
+
+function! s:VSetSearch()
+    let temp = @s
+    norm! gv"sy
+    let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+    let @s = temp
+endfunction
+
 
 "开启插件支持
 set nocompatible
