@@ -29,6 +29,8 @@ set wildmode=full "<tab>自动不全 zsh自动不全菜单
 set history=2000 ""提高命令行历史记录的数目非常有价值
 set undofile    "un~ 文件统一存放
 set undodir=~/.vimundofile
+set ignorecase "搜索模式忽略大小写
+set smartcase "搜索模式出现大写时则关闭 ignorecase 选项
 
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
