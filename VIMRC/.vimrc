@@ -56,6 +56,10 @@ function! s:VSetSearch()
 endfunction
 
 
+" omicomplete 自动补全
+autocmd FileType php set omnifunc=phpcomplete 
+
+
 "开启插件支持
 set nocompatible
 filetype plugin on
