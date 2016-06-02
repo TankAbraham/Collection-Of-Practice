@@ -66,7 +66,7 @@ filetype plugin on
 
 
 
-" matchit
+" matchit VIM自带插件
 runtime macros/matchit.vim
 
 
@@ -86,6 +86,7 @@ let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1 
 let g:miniBufExplMapCTabSwitchBufs = 1 
 let g:miniBufExplModSelTarget = 1 
+
 
 
 " neocomplete
@@ -160,6 +161,8 @@ let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\
 " For perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+
 
 "PHP Syntax Check
 let g:PHP_SYNTAX_CHECK_BIN = '/usr/local/php/bin/php'
