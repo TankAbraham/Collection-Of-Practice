@@ -99,9 +99,9 @@ void GenerateCodes(const INode* node, const HuffCode& prefix, HuffCodeMap& outCo
 
 int main()
 {
-	//´´½¨ÆµÂÊ±í
+	//创建频率表
 	map<char, int> frequs;
-	cout << "ÇëÊäÈëÒ»ÐÐÎÄ±¾Êý¾Ý:" << endl;
+	cout<<"请输入一行文本数据:"<<endl;
 	string str;
 	getline(cin, str);
 	const char* ptr = str.c_str();
