@@ -1,104 +1,92 @@
 #include <iostream>
 #include <string>
-#include <fstream>
 #include <map>
 #include <queue>
 
 using namespace std;
 
-struct Character {
-	Character(unsigned freq = 0) : c(NULL), frequence(freq), left(nullptr), right(nullptr), huffmanCode("") {}
-	char c;
-	unsigned frequence;	//频率，权
-	struct Character *left;
-	struct Character *right;
-	string huffmanCode;
-	char direction;
+struct Node {
+	Node(int freq = 0, char c = NULL) 
+		: frequnce(freq), left(nullptr), right(nullptr), val(c) {}
+
+	int frequnce;
+	struct Node* left;
+	struct Node* right;
+	char val;
 };
 
-map<char, Character> fileToFrequence(const string &name) {
-	ifstream ifs(name);
-	map<char, Character> codePlan;
+string getInput() {
+	string line;
 
-	char c;
-	while (ifs.get(c)) {
-		codePlan[c].c = c;
-		codePlan[c].frequence++;
-	}
+	cout << "pleast input some text" << endl;
+	cin >> line;
 
-	return codePlan;
+	return line;
 }
 
-struct CompareWeight {
-	bool operator() (const Character &lhs, const Character &rhs) const
-	{
-		return lhs.frequence > rhs.frequence ? true : false;
+map<char, int> statisticsFrequence(const string& s) {
+	map<char, int> frquence;
+
+	for (auto e : s) {
+		frquence[e]++;
+	}
+
+	return frquence;
+}
+
+struct Compare {
+	bool operator() (const struct Node* lhs, const struct Node* rhs) const {
+		return lhs->frequnce > rhs->frequnce; //最小堆
 	}
 };
 
-struct Character* huffman(priority_queue<Character, vector<Character>, CompareWeight> &heap) {
-	struct Character *root = nullptr;
+struct Node* buildHuffmanTree(const map<char, int> &frequence) {
+	priority_queue<struct Node*, vector<struct Node*>, Compare> minHeap;
 
-	while (!heap.empty()) {
-		root = new Character();
-		Character temp = heap.top();
-
-		temp.direction = '0';
-		root->left = new Character();
-		*root->left = temp;
-		heap.pop();
-		if (heap.empty()) {
-			root = root->left;
-			break;
-		}
-		else {
-			temp = heap.top();
-			temp.direction = '1';
-			root->right = new Character();
-			*root->right = temp;
-			heap.pop();
-		}
-
-		root->frequence = root->left->frequence + root->right->frequence;
-		heap.push(*root);
+	for (auto e : frequence) {
+		minHeap.push(new struct Node(e.second, e.first));
 	}
 
-	return root;
+	while (minHeap.size() > 1) {
+		struct Node* root = new struct Node();
+
+		root->left = minHeap.top();
+		minHeap.pop();
+
+		root->right = minHeap.top();
+		minHeap.pop();
+
+		root->frequnce = root->left->frequnce + root->right->frequnce;
+
+		minHeap.push(root);
+	}
+
+	return minHeap.top();
 }
 
-//字符集一般是常数级的数量级，所以这里使用递归不至于爆栈
-void huffmanTreeToCode(struct Character* root, string path, map<char, Character>& codePlan) {
-	if (root->c == NULL) {
-		//left node
+void treeToCode(struct Node* root, string& path, map<char, string>& codePlan) {
+	if (root->val == NULL) {
 		string leftPath = path + "0";
-		huffmanTreeToCode(root->left, leftPath, codePlan);
+		treeToCode(root->left, leftPath, codePlan);
 
 		string rightPath = path + "1";
-		huffmanTreeToCode(root->right, rightPath, codePlan);
+		treeToCode(root->right, rightPath, codePlan);
 	}
 	else {
-		codePlan[root->c].huffmanCode = path;
-	}
-}
-
-void buildHeap(priority_queue<Character, vector<Character>, CompareWeight>& heap, const map<char, Character>& codePlan) {
-	for (auto e : codePlan) {
-		heap.push(e.second);
+		codePlan[root->val] = path;
 	}
 }
 
 int main() {
-	map<char, Character> codePlan = fileToFrequence("huffman_test.txt");
-	priority_queue<Character, vector<Character>, CompareWeight> heap;
+	string s = getInput();
+	map<char, int> frequence = statisticsFrequence(s);
+	struct Node* root = buildHuffmanTree(frequence);
 
-	buildHeap(heap, codePlan);
-
-	struct Character *root = huffman(heap);
-
-	huffmanTreeToCode(root, string(), codePlan);
+	map<char, string> codePlan;
+	treeToCode(root, string(), codePlan);
 
 	for (auto e : codePlan) {
-		cout << e.first << " " << e.second.huffmanCode << endl;
+		cout << e.first << ' ' << e.second << endl;
 	}
 
 	return 0;
