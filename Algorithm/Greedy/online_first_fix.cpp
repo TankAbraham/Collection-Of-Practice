@@ -14,7 +14,7 @@ struct Boxes {
 	vector<T> v;
 };
 
-void nextFit(vector<Boxes<int>> &boxes, int curr) {
+void firstFit(vector<Boxes<int>> &boxes, int curr) {
 	if (curr > boxes[0].maxQuality)
 		cout << "error : exceed max quality" << endl;
 
@@ -46,7 +46,7 @@ int main() {
 	int curr;
 
 	while (cin >> curr) {
-		nextFit(v, curr);
+		firstFit(v, curr);
 		visitBoxes(v);
 	}
 }
