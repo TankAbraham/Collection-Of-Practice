@@ -21,7 +21,7 @@ struct Stratrgy{
 void change(int total, Stratrgy& s) {
 	for (auto &e : s.m) {
 		int n = 0;
-		while ((total - (n+1) * e.first) > 0){
+		while ((total - (n+1) * e.first) >= 0){
 			n++;
 		}
 
@@ -44,6 +44,12 @@ int main() {
 
 	change(67, s);
 	printStrategy(s);
+
+
+	Stratrgy s2({ 100, 20, 10, 5, 1 });
+
+	change(241, s2);
+	printStrategy(s2);
 
 	return 0;
 }
