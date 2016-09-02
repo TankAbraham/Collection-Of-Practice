@@ -28,7 +28,10 @@ GraphAdjacencyMatrix::GraphAdjacencyMatrix(const int v) : vertex(v)
 inline void
 GraphAdjacencyMatrix::addEdge(const int src, const int dest) {
 	if (src >= vertex || dest >= vertex)
+	{
 		cout << "wrong input src = " << src << " dest = " << dest << endl;
+		return ;
+	}
 
 	matrix[src][dest] = 1;
 	matrix[dest][src] = 1;
