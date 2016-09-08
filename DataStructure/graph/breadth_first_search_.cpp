@@ -3,59 +3,71 @@
  */
 #include <iostream>
 #include <vector>
-#include <list>
+#include <unordered_set>
 #include <queue>
-#include <utility>
 
 using namespace std;
 
-class Graph
-{
+#define INFINITY_DISTENCE 100
+
+struct TableEntry {
+	unsigned int distence = INFINITY_DISTENCE;
+	size_t path = 0;
+};
+
+class Graph {
 public:
-	Graph(int);
+	Graph(const unsigned int);
 	void addEdge(size_t, size_t);
-	void bfs(size_t);
+	vector<TableEntry> bfs(size_t) const;
 private:
-	vector<pair<int, list<size_t>>> adjList;
-	int vertexNum;
+	vector<unordered_set<size_t>> vertexs;
+	unsigned int vertexNum;
 };
 
-inline
-Graph::Graph(int vertexNum) : vertexNum(vertexNum)
-{
-	//let index 0 always empty
-	for (int i = 0; i <= vertexNum; i++)
-	{
-		adjList.push_back(make_pair(INT_MAX, list<size_t>()));
-	}
-};
-
-inline void
-Graph::addEdge(size_t src, size_t dest)
-{
-	adjList[src].second.push_back(dest);
+inline 
+Graph::Graph(const unsigned vn) : vertexNum(vn) {
+	vertexs.resize(vertexNum + 1);
 }
 
 inline void
-Graph::bfs(size_t start)
-{
-	queue<size_t> q;
-	q.push(start);
-	adjList[start].first = 0;
+Graph::addEdge(size_t src, size_t dest) {
+	vertexs[src].insert(dest);
+}
 
-	while (!q.empty())
-	{
-		size_t i = q.front();
+inline vector<TableEntry>
+Graph::bfs(size_t start) const {
+	if (start < 1 || start > vertexNum) {
+		return vector<TableEntry>();
+	}
+
+	vector<TableEntry> table(vertexNum + 1);
+	queue<size_t> q;
+
+	//initialization
+	table[start].distence = 0;
+	q.push(start);
+
+	while (!q.empty()) {
+		size_t cur = q.front();
 		q.pop();
 
-		for (const auto next : adjList[i].second)
-		{
-			if (adjList[next].first == INT_MAX)
-			{
-				adjList[next].first = adjList[i].first + 1;
+		for (const auto next : vertexs[cur]) {
+			if (table[next].distence == INFINITY_DISTENCE) {
+				table[next].distence = table[cur].distence + 1;
+				table[next].path = cur;
+
 				q.push(next);
 			}
 		}
+	}
+
+	return table;
+}
+
+void printTable(const vector<TableEntry>& table) {
+	for (vector<TableEntry>::size_type i = 1; i < table.size(); i++) {
+		cout << i << " " << table[i].distence << " " << table[i].path << endl;
 	}
 }
 
@@ -75,7 +87,7 @@ int main() {
 	g.addEdge(5, 7);
 	g.addEdge(7, 6);
 
-	g.bfs(3);
+	printTable(g.bfs(3));
 
 	return 0;
 }

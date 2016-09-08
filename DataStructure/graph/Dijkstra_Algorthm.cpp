@@ -62,6 +62,9 @@ Graph::dijkstra(const size_t start) const {
 		table[curNode.first].known = true;
 
 		for (const auto e : adjList[curNode.first]) {
+			/*
+			 * if(table[cur.index].distance + adjecentNode.weight < table[cur.index].distence) then update
+			 */
 			if (table[curNode.first].distence + e.second < table[e.first].distence) {
 				table[e.first].distence = table[curNode.first].distence + e.second;
 				table[e.first].path = curNode.first;
