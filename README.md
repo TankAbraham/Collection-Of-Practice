@@ -1,7 +1,11 @@
 # Collection-Of-Practice
 This is the collection of practise project which include C++ Primer and so on.
 
-## C++ Primer 5th Exercise    
+## Algorithm
+
+Collection of vary algorithm code.
+
+## C++PrimerPracticeCode    
 The practice of the book.    
 
 ## VIMRC
